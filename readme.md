@@ -1,7 +1,8 @@
 # Universal Sentence Builder (USB)
 - USB is plug and play, you only need to give the words for the sentence, and the program will generate the sentence from it. (It is not yet supported)
-- Currently only Enlgish and Hungarian languages are supported, since this lib is made for the Code To Give competition.
+- Only Enlgish and Hungarian languages are supported, since this lib is made for the Code To Give competition.
 - Nearly perfect Hungarian conjunction for these endings: -nak/-nek, -ra/-re, -val/-vel
+- This library is not finished, so it is not good for real sentence building, only for Hungarian conjunctions but this will change soon.
 
 ## Hungarian-specific features
 ### Initializing
