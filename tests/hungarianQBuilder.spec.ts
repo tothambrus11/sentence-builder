@@ -4,11 +4,25 @@ const hungarian = new HungarianQBuilder();
 
 describe("-val, -vel", () => {
     it("should generate the correct answers for lowercase words", () => {
-        const esetekS = "Miklós-Miklóssal,Kázmér-Kázmérral,levegő-levegővel,agyag-agyaggal,kedvenc-kedvenccel,dzsumbuj-dzsumbujjal,kas-kassal,Értelmező kéziszótár-Értelmező kéziszótárral,bridzs-briddzsel";
+        const esetekS = "Miklós-Miklóssal,alma-almával,kesztyű-kesztyűvel,eke-ekével,ági-ágival,Kázmér-Kázmérral,levegő-levegővel,agyag-agyaggal,kedvenc-kedvenccel,dzsumbuj-dzsumbujjal,kas-kassal,jasz-jasszal,Értelmező kéziszótár-Értelmező kéziszótárral,bridzs-briddzsel,vicc-viccel,könny-könnyel,rossz-rosszal,férfi-férfival,sír-sírral,cél-céllal,balett-balettel,balett-balettal,póker-pókerrel,póker-pókerral,kráter-kráterrel,kráter-kráterral,hotel-hotellel,hotel-hotellal,tróger-trógerrel,tróger-trógerral,kevlár-kevlárral,lekvár-lekvárral,tea-teával,sofőr-sofőrrel,szuverén-szuverénnel,alélt-alélttal,hari-harival,audi-audival,ametiszt-ametiszttel,andezit-andezittel";
+
+        let resultS = "";
         esetekS.split(",").map(k => k.split("-")).forEach(data => {
-            expect(hungarian.valVel(data[0])).toBe(data[1]);
+            resultS += data[0] + " \t-> ";
+            resultS += hungarian.valVel(data[0]).join(', ') + "\n";
+            expect(hungarian.valVel(data[0])).toContain(data[1]);
         })
+
+        console.log(resultS);
     });
+
+
+    it("shouldn't generate bad results", ()=>{
+        const rosszEsetek = "andezit-andezittal,szuverén-szuverénnal,sín-sínnal,bádog-bádoggel";
+        rosszEsetek.split(",").map(k => k.split("-")).forEach(data => {
+            expect(!hungarian.valVel(data[0]).includes(data[1])).toBeTruthy();
+        });
+    })
 })
 
 describe("hangrend", () => {
@@ -26,7 +40,7 @@ describe("hangrend", () => {
         mely.forEach(sz => expect(Hangrend[hungarian.hangrend(sz.toUpperCase())]).toBe(Hangrend[Hangrend.MELY]));
         magas.forEach(sz => expect(Hangrend[hungarian.hangrend(sz.toUpperCase())]).toBe(Hangrend[Hangrend.MAGAS]));
         vegyes.forEach(szo => expect(Hangrend[hungarian.hangrend(szo.toUpperCase())]).toBe(Hangrend[Hangrend.VEGYES]));
-    })
+    });
 })
 
 describe("az", () => {

@@ -7,4 +7,4 @@ export interface IQuestionBuilder {
 }
 let qBuilder = new HungarianQBuilder();
 
-console.log(qBuilder.valVel("híd"));
+console.log(qBuilder.valVel("Budapest"));
