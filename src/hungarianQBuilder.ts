@@ -54,6 +54,8 @@ export class HungarianQBuilder implements IQuestionBuilder {
                 eredmeny += szo.substr(0, l - 2) + "ssz";
             } else if (szo.endsWith("dz")) {
                 eredmeny += szo.substr(0, l - 2) + "ddz";
+            } else if(szo.endsWith("dzs")){
+                eredmeny += szo.substr(0, l-3) + "ddzs";
             } else if (szo.endsWith("zs")) {
                 eredmeny += szo.substr(0, l - 2) + "zzs";
             } else if (szo.endsWith("ly")) {

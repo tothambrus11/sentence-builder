@@ -4,7 +4,7 @@ const hungarian = new HungarianQBuilder();
 
 describe("-val, -vel", () => {
     it("should generate the correct answers for lowercase words", () => {
-        const esetekS = "Miklós-Miklóssal,Kázmér-Kázmérral,levegő-levegővel,agyag-agyaggal,kedvenc-kedvenccel,dzsumbuj-dzsumbujjal,kas-kassal,Értelmező kéziszótár-Értelmező kéziszótárral";
+        const esetekS = "Miklós-Miklóssal,Kázmér-Kázmérral,levegő-levegővel,agyag-agyaggal,kedvenc-kedvenccel,dzsumbuj-dzsumbujjal,kas-kassal,Értelmező kéziszótár-Értelmező kéziszótárral,bridzs-briddzsel";
         esetekS.split(",").map(k => k.split("-")).forEach(data => {
             expect(hungarian.valVel(data[0])).toBe(data[1]);
         })
