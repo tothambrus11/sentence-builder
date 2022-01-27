@@ -1,7 +1,7 @@
 import {IQuestionBuilder} from "./main";
 
 const maganhangzok = ["a", "á", "e", "é", "i", "í", "o", "ó", "ö", "ő", "u", "ú", "ü", "ű"];
-const erosMagasHangrenduBetuk = ["e","ö","ü","ő","ű"];
+const erosMagasHangrenduBetuk = ["e", "ö", "ü", "ő", "ű"];
 const magas_hangrendu_betuk = ["é", "i", "í", "e", "ö", "ü", "ő", "ű"];
 const mely_hangrendu_betuk = ["a", "á", "o", "ó", "u", "ú"];
 // későbbiek ne végződjenek korábban jövőkkel
@@ -41,53 +41,6 @@ export class HungarianQBuilder implements IQuestionBuilder {
         return ""; // todo
     }
 
-    valVel(szo: string): string[] {
-        let eredmeny = "";
-
-        let l = szo.length;
-        if (maganhangzok.indexOf(szo.substr(-1, 1)) != -1) { //Ha magánhangzóval végződik:
-            if (szo.endsWith("a")) { // Ha a-ra végződik -> almával
-                eredmeny = szo.substr(0, l - 1) + "áv";
-            } else if (szo.endsWith("e")) { // Ha e-re végződik -> tevével
-                eredmeny = szo.substr(0, l - 1) + "év";
-            } else {
-                eredmeny = szo + "v";
-            }
-        } else {
-            //Ha mássalhangzóval végződik:
-
-            let mshFinished = false;
-            for (let msh of massalhangzok) {
-
-                if (szo.endsWith(msh.charAt(0) + msh)) { // msh első karakterének duplázása
-                    mshFinished = true; // nem kell jobban duplázni, már így is dupla van
-                    eredmeny += szo;
-                    break;
-                }
-            }
-
-            if (!mshFinished) {
-                for (let msh of massalhangzok) {
-                    if (szo.endsWith(msh)) {
-                        mshFinished = true; // Mássalhangzó duplázása
-                        eredmeny += szo.substr(0, l - msh.length) + msh.charAt(0) + msh;
-                        break;
-                    }
-                }
-            }
-        }
-
-        // A toldalék vége:
-
-        const toldalekHangrend = this.toldalekHangrendje(szo);
-        switch (toldalekHangrend){
-            case ToldalekHangrend.MAGAS: return [eredmeny+"el"];
-            case ToldalekHangrend.MELY: return [eredmeny+"al"];
-            case ToldalekHangrend.BARMELYIK: return [eredmeny+"al",eredmeny+"el"];
-        }
-        throw new Error("Wtf miért nincs hangrend");
-    }
-
     toldalekHangrendje(szo: string): ToldalekHangrend {
         const szoMaganhangzoi = this.maganhangzok(szo);
         if (!szoMaganhangzoi.length) return null;
@@ -119,7 +72,7 @@ export class HungarianQBuilder implements IQuestionBuilder {
             if (utolsoSzotag && betu === "e")
                 return ToldalekHangrend.BARMELYIK;
 
-            if(erosMagasHangrenduBetuk.includes(betu))
+            if (erosMagasHangrenduBetuk.includes(betu))
                 return ToldalekHangrend.MAGAS;
 
             if (melyBetu(betu)) {
@@ -147,8 +100,12 @@ export class HungarianQBuilder implements IQuestionBuilder {
         return szoMaganhangzoi;
     }
 
+    valVel(szo: string): string[] {
+        return this.altalanosToldalek(szo, "val", "vel", true);
+    }
 
-    nakNek(szo: string): string {
+
+    nakNek(szo: string): string[] {
         return this.altalanosToldalek(szo, "nak", "nek");
     }
 
@@ -156,18 +113,75 @@ export class HungarianQBuilder implements IQuestionBuilder {
         return this.altalanosToldalek(szo, "ra", "re");
     }
 
-    altalanosToldalek(szo: string, melyToldalek: string, magasToldalek: string) {
-        if (szo.endsWith("e")) szo = szo.slice(0, -1) + "é"; // rege -> regének
-        else if (szo.endsWith("a")) szo = szo.slice(0, -1) + "á"; // Pista -> Pistának
-        else if (szo.endsWith(melyToldalek.charAt(0) + melyToldalek.charAt(0))) szo = szo.slice(0, -1); // orr + ra -> orra
-
-        switch (this.hangrend(szo)) {
-            case Hangrend.MELY:
-            case Hangrend.VEGYES: // Vegyesél a legtöbb esetben a mély is jó.
-                return szo + melyToldalek;
-            case Hangrend.MAGAS:
-                return szo + magasToldalek;
+    altalanosToldalek(szo: string, melyToldalek: string, magasToldalek: string, teljesHasonulas: boolean = false) {
+        let i;
+        for (i = 0; i < melyToldalek.length; i++) {
+            if (maganhangzok.includes(melyToldalek.charAt(i))) {
+                break;
+            }
         }
+        let l = szo.length;
+
+        let toldalekEleje = melyToldalek.substring(0, i);
+        let melyMaganhangzo = melyToldalek.charAt(i);
+        let magasMaganhangzo = magasToldalek.charAt(i);
+        let toldalekVege = melyToldalek.substring(i + 1, l);
+
+        let eredmeny = "";
+        if (maganhangzok.includes(szo.charAt(l - 1))) { //Ha magánhangzóval végződik:
+            if (szo.endsWith("a")) { // Ha a-ra végződik -> almával
+                eredmeny = szo.substr(0, l - 1) + "á";
+            } else if (szo.endsWith("e")) { // Ha e-re végződik -> tevével
+                eredmeny = szo.substr(0, l - 1) + "é";
+            } else {
+                eredmeny = szo;
+            }
+            eredmeny += toldalekEleje;
+        } else {
+            //Ha mássalhangzóval végződik:
+
+            if (teljesHasonulas) {
+                let mshFinished = false;
+                for (let msh of massalhangzok) {
+
+                    if (szo.endsWith(msh.charAt(0) + msh)) { // msh első karakterének duplázása
+                        mshFinished = true; // nem kell jobban duplázni, már így is dupla van
+                        eredmeny += szo;
+                        break;
+                    }
+                }
+
+                if (!mshFinished) {
+                    for (let msh of massalhangzok) {
+                        if (szo.endsWith(msh)) {
+                            mshFinished = true; // Mássalhangzó duplázása
+                            eredmeny += szo.substr(0, l - msh.length) + msh.charAt(0) + msh;
+                            break;
+                        }
+                    }
+                }
+            } else if (!szo.endsWith(toldalekEleje.charAt(0) + toldalekEleje.charAt(0))) {
+                eredmeny = szo + toldalekEleje;
+            } else {
+                eredmeny = szo;
+            }
+        }
+
+
+        // A toldalék vége:
+
+        const toldalekHangrend = this.toldalekHangrendje(szo);
+        switch (toldalekHangrend) {
+            case ToldalekHangrend.MAGAS:
+                return [eredmeny + magasMaganhangzo + toldalekVege];
+            case ToldalekHangrend.MELY:
+                return [eredmeny + melyMaganhangzo + toldalekVege];
+            case ToldalekHangrend.BARMELYIK:
+                return [eredmeny + magasMaganhangzo + toldalekVege, eredmeny + melyMaganhangzo + toldalekVege];
+        }
+        throw new Error("Wtf miért nincs hangrend");
+
+
     }
 
     // null-t ad vissza, ha nincs benne magánhangzó

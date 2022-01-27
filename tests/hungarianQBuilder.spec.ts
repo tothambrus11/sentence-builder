@@ -4,7 +4,7 @@ const hungarian = new HungarianQBuilder();
 
 describe("-val, -vel", () => {
     it("should generate the correct answers for lowercase words", () => {
-        const esetekS = "Miklós-Miklóssal,alma-almával,kesztyű-kesztyűvel,eke-ekével,ági-ágival,Kázmér-Kázmérral,levegő-levegővel,agyag-agyaggal,kedvenc-kedvenccel,dzsumbuj-dzsumbujjal,kas-kassal,jasz-jasszal,Értelmező kéziszótár-Értelmező kéziszótárral,bridzs-briddzsel,vicc-viccel,könny-könnyel,rossz-rosszal,férfi-férfival,sír-sírral,cél-céllal,balett-balettel,balett-balettal,póker-pókerrel,póker-pókerral,kráter-kráterrel,kráter-kráterral,hotel-hotellel,hotel-hotellal,tróger-trógerrel,tróger-trógerral,kevlár-kevlárral,lekvár-lekvárral,tea-teával,sofőr-sofőrrel,szuverén-szuverénnel,alélt-alélttal,hari-harival,audi-audival,ametiszt-ametiszttel,andezit-andezittel";
+        const esetekS = "Miklós-Miklóssal,alma-almával,kesztyű-kesztyűvel,eke-ekével,ági-ágival,Kázmér-Kázmérral,levegő-levegővel,agyag-agyaggal,kedvenc-kedvenccel,dzsumbuj-dzsumbujjal,kas-kassal,jasz-jasszal,Értelmező kéziszótár-Értelmező kéziszótárral,bridzs-briddzsel,vicc-viccel,könny-könnyel,rossz-rosszal,férfi-férfival,sír-sírral,cél-céllal,balett-balettel,balett-balettal,póker-pókerrel,póker-pókerral,kráter-kráterrel,kráter-kráterral,hotel-hotellel,hotel-hotellal,tróger-trógerrel,tróger-trógerral,kevlár-kevlárral,lekvár-lekvárral,tea-teával,sofőr-sofőrrel,szuverén-szuverénnel,alélt-alélttal,hari-harival,audi-audival,ametiszt-ametiszttel,andezit-andezittel,röplabda-röplabdával,keksz-keksszel";
 
         let resultS = "";
         esetekS.split(",").map(k => k.split("-")).forEach(data => {
@@ -100,47 +100,47 @@ describe("az", () => {
 
 describe("-nak, -nek", () => {
     it("should be working", () => {
-        expect(hungarian.nakNek("asztal")).toBe("asztalnak");
-        expect(hungarian.nakNek("ország")).toBe("országnak");
-        expect(hungarian.nakNek("hosszú")).toBe("hosszúnak");
-        expect(hungarian.nakNek("unalmas")).toBe("unalmasnak");
-        expect(hungarian.nakNek("gyerek")).toBe("gyereknek");
-        expect(hungarian.nakNek("gyümölcs")).toBe("gyümölcsnek");
-        expect(hungarian.nakNek("késő")).toBe("későnek");
-        expect(hungarian.nakNek("hiba")).toBe("hibának");
-        expect(hungarian.nakNek("kávé")).toBe("kávénak");
-        expect(hungarian.nakNek("április")).toBe("áprilisnak");
-        expect(hungarian.nakNek("vidám")).toBe("vidámnak");
-        expect(hungarian.nakNek("udvarias")).toBe("udvariasnak");
-        expect(hungarian.nakNek("szépsál")).toBe("szépsálnak");
+        expect(hungarian.nakNek("asztal")).toStrictEqual(["asztalnak"]);
+        expect(hungarian.nakNek("ország")).toStrictEqual(["országnak"]);
+        expect(hungarian.nakNek("hosszú")).toStrictEqual(["hosszúnak"]);
+        expect(hungarian.nakNek("unalmas")).toStrictEqual(["unalmasnak"]);
+        expect(hungarian.nakNek("gyerek")).toStrictEqual(["gyereknek"]);
+        expect(hungarian.nakNek("gyümölcs")).toStrictEqual(["gyümölcsnek"]);
+        expect(hungarian.nakNek("késő")).toStrictEqual(["későnek"]);
+        expect(hungarian.nakNek("hiba")).toStrictEqual(["hibának"]);
+        expect(hungarian.nakNek("kávé")).toStrictEqual(["kávénak"]);
+        expect(hungarian.nakNek("április")).toStrictEqual(["áprilisnak"]);
+        expect(hungarian.nakNek("vidám")).toStrictEqual(["vidámnak"]);
+        expect(hungarian.nakNek("udvarias")).toStrictEqual(["udvariasnak"]);
+        expect(hungarian.nakNek("szépsál")).toStrictEqual(["szépsálnak"]);
     })
 
     it("should be working for kiesés", () => {
-        expect(hungarian.nakNek("finn")).toBe("finnek");
-        expect(hungarian.nakNek("mann")).toBe("mannak");
+        expect(hungarian.nakNek("finn")).toStrictEqual(["finnek"]);
+        expect(hungarian.nakNek("mann")).toStrictEqual(["mannak"]);
     })
 })
 
 describe("-ra, -re", () => {
     it("should be working", () => {
-        expect(hungarian.raRe("asztal")).toBe("asztalra");
-        expect(hungarian.raRe("ország")).toBe("országra");
-        expect(hungarian.raRe("hosszú")).toBe("hosszúra");
-        expect(hungarian.raRe("unalmas")).toBe("unalmasra");
-        expect(hungarian.raRe("gyerek")).toBe("gyerekre");
-        expect(hungarian.raRe("gyümölcs")).toBe("gyümölcsre");
-        expect(hungarian.raRe("késő")).toBe("későre");
-        expect(hungarian.raRe("hiba")).toBe("hibára");
-        expect(hungarian.raRe("kávé")).toBe("kávéra");
-        expect(hungarian.raRe("április")).toBe("áprilisra");
-        expect(hungarian.raRe("vidám")).toBe("vidámra");
-        expect(hungarian.raRe("udvarias")).toBe("udvariasra");
-        expect(hungarian.raRe("szépsál")).toBe("szépsálra");
+        expect(hungarian.raRe("asztal")).toStrictEqual(["asztalra"]);
+        expect(hungarian.raRe("ország")).toStrictEqual(["országra"]);
+        expect(hungarian.raRe("hosszú")).toStrictEqual(["hosszúra"]);
+        expect(hungarian.raRe("unalmas")).toStrictEqual(["unalmasra"]);
+        expect(hungarian.raRe("gyerek")).toStrictEqual(["gyerekre"]);
+        expect(hungarian.raRe("gyümölcs")).toStrictEqual(["gyümölcsre"]);
+        expect(hungarian.raRe("késő")).toStrictEqual(["későre"]);
+        expect(hungarian.raRe("hiba")).toStrictEqual(["hibára"]);
+        expect(hungarian.raRe("kávé")).toStrictEqual(["kávéra"]);
+        expect(hungarian.raRe("április")).toStrictEqual(["áprilisra"]);
+        expect(hungarian.raRe("vidám")).toStrictEqual(["vidámra"]);
+        expect(hungarian.raRe("udvarias")).toStrictEqual(["udvariasra"]);
+        expect(hungarian.raRe("szépsál")).toStrictEqual(["szépsálra"]);
     })
 
     it("should be working for kiesés", () => {
-        expect(hungarian.raRe("orr")).toBe("orra");
-        expect(hungarian.raRe("sasorr")).toBe("sasorra");
+        expect(hungarian.raRe("orr")).toStrictEqual(["orra"]);
+        expect(hungarian.raRe("sasorr")).toStrictEqual(["sasorra"]);
     })
 
 });
